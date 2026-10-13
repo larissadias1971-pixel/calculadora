@@ -8,43 +8,65 @@
         body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f9; }
         .container { background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); }
         input { padding: 10px; font-size: 16px; margin: 10px; width: 80px; text-align: center; border: 1px solid #ccc; border-radius: 5px; }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 5px; display: block; margin: 15px auto; }
-        button:hover { background-color: #218838; }
+        .botoes { display: flex; gap: 10px; justify-content: center; margin: 15px auto; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; color: white; border: none; border-radius: 5px; }
+        .btn-somar { background-color: #28a745; }
+        .btn-somar:hover { background-color: #218838; }
+        .btn-subtrair { background-color: #dc3545; }
+        .btn-subtrair:hover { background-color: #c82333; }
         h2 { color: #333; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Somar Dois Números</h2>
+    <h2>Operações Matemáticas</h2>
     
     <!-- Campos para o usuário digitar -->
     <input type="number" id="num1" placeholder="Número 1">
-    <span>+</span>
     <input type="number" id="num2" placeholder="Número 2">
     
-    <button onclick="somar()">Somar</button>
+    <!-- Botões de ação -->
+    <div class="botoes">
+        <button class="btn-somar" onclick="somar()">Somar</button>
+        <button class="btn-subtrair" onclick="subtrair()">Subtrair</button>
+    </div>
     
     <p id="resultado" style="font-size: 24px; font-weight: bold; color: #007bff; margin-top: 20px;"></p>
 </div>
 
 <script>
-function somar() {
-    // Pega os valores digitados nos inputs e converte para números
+// Função auxiliar para pegar e validar os números digitados
+function obterNumeros() {
     const valor1 = parseFloat(document.getElementById('num1').value);
     const valor2 = parseFloat(document.getElementById('num2').value);
     
-    // Verifica se algum dos campos ficou vazio ou não é um número válido
     if (isNaN(valor1) || isNaN(valor2)) {
         document.getElementById('resultado').innerText = "Por favor, digite os dois números!";
         document.getElementById('resultado').style.color = "#dc3545"; // Vermelho para erro
-        return;
+        return null;
     }
     
-    // Faz a soma
-    const total = valor1 + valor2;
+    return { valor1, valor2 };
+}
+
+function somar() {
+    const numeros = obterNumeros();
+    if (!numeros) return; // Para a execução se a validação falhar
     
-    // Mostra na tela
+    const total = numeros.valor1 + numeros.valor2;
+    
+    document.getElementById('resultado').innerText = `Resultado: ${total}`;
+    document.getElementById('resultado').style.color = "#007bff"; // Azul para sucesso
+}
+
+function subtrair() {
+    const numeros = obterNumeros();
+    if (!numeros) return; // Para a execução se a validação falhar
+    
+    // Faz a subtração: número 1 menos número 2
+    const total = numeros.valor1 - numeros.valor2;
+    
     document.getElementById('resultado').innerText = `Resultado: ${total}`;
     document.getElementById('resultado').style.color = "#007bff"; // Azul para sucesso
 }
